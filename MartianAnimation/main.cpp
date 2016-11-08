@@ -18,8 +18,8 @@ float cam_sensitivity = 0.005f;
 float cam_speed = 0.025f;
 float entity_sensitivity = 0.025f;
 float entity_speed = 0.015f;
-float upper_map_bound = 1.0f;
-float lower_map_bound = -1.0f;
+float upper_map_bound = 0.6f;
+float lower_map_bound = -0.6f;
 float max_height = 1.0f;
 float min_height = 0.0f;
 float base_terrain_height = 0.0f;
@@ -124,7 +124,7 @@ int main() {
 	float angle = 0.0;
 
 	float x = 0.0;
-	float y = base_terrain_height + 0.16;
+	float y = base_terrain_height;
 	float z = 0.0;
 
 	vec3 martian_position(0, 0, 0.5);
