@@ -167,6 +167,7 @@
     <ClInclude Include="loadObj.h" />
     <ClInclude Include="loadShader.h" />
     <ClInclude Include="mat4.h" />
+    <ClInclude Include="stb_image.h" />
     <ClInclude Include="strUtils.h" />
     <ClInclude Include="vec2.h" />
     <ClInclude Include="vec3.h" />

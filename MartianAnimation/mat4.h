@@ -35,7 +35,9 @@ public:
 mat4 operator*(const mat4 &u, const mat4 &v);
 
 mat4 make_cam_mat(vec3 camPos, vec3 camTar, vec3 upVec);
+mat4 rotate_x_mat(float rotationAngle);
 mat4 rotate_y_mat(float rotationAngle);
+mat4 rotate_z_mat(float rotationAngle);
 mat4 get_translation_mat(vec3 translation);
 mat4 perspective_projection(float fov, float aspect, float near, float far);
 mat4 scale_mat(float scaleFactor);

@@ -73,7 +73,7 @@ void load_obj_file(std::string file, std::vector<vec3> &vertices, std::vector<ve
 				unsigned int vertex_index[3], uv_index[3], normal_index[3];
 				int matches = sscanf_s(str, "%d/%d/%d %d/%d/%d %d/%d/%d\n", &vertex_index[0], &uv_index[0], &normal_index[0], &vertex_index[1], &uv_index[1], &normal_index[1], &vertex_index[2], &uv_index[2], &normal_index[2]);
 				if (matches != 9) {
-					printf("File can't be read by our simple parser : ( Try exporting with other options\n");
+					printf("faces can't be read by parser\n");
 					return;
 				}
 

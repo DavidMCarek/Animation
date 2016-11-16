@@ -79,11 +79,30 @@ mat4 make_cam_mat(vec3 camPos, vec3 camTar, vec3 upVec) {
 	return n * m;
 }
 
+mat4 rotate_x_mat(float rotationAngle) {
+	return mat4(
+		1.0, 0.0, 0.0, 0.0,
+		0.0, cos(rotationAngle), -sin(rotationAngle), 0.0,
+		0.0, sin(rotationAngle), cos(rotationAngle), 0.0,
+		0.0, 0.0, 0.0, 1.0
+		);
+}
+
 mat4 rotate_y_mat(float rotationAngle) {
 	return mat4(
 		cos(rotationAngle),	0.0, sin(rotationAngle), 0.0,
 		0.0, 1.0, 0.0, 0.0,
 		-sin(rotationAngle), 0.0, cos(rotationAngle), 0.0,
+		0.0, 0.0, 0.0, 1.0
+		);
+}
+
+
+mat4 rotate_z_mat(float rotationAngle) {
+	return mat4(
+		cos(rotationAngle), -sin(rotationAngle), 0.0, 0.0,
+		sin(rotationAngle), cos(rotationAngle), 0.0, 0.0,
+		0.0, 0.0, 1.0, 0.0,
 		0.0, 0.0, 0.0, 1.0
 		);
 }
