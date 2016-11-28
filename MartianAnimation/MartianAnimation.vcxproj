@@ -150,6 +150,8 @@
   <ItemGroup>
     <None Include="frag.glsl" />
     <None Include="packages.config" />
+    <None Include="plane_frag.glsl" />
+    <None Include="plane_vert.glsl" />
     <None Include="vert.glsl" />
   </ItemGroup>
   <ItemGroup>

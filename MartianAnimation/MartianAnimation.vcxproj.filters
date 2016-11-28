@@ -18,6 +18,8 @@
     <None Include="packages.config" />
     <None Include="frag.glsl" />
     <None Include="vert.glsl" />
+    <None Include="plane_vert.glsl" />
+    <None Include="plane_frag.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="glUtils.cpp">

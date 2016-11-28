@@ -1,5 +1,6 @@
 #include "glUtils.h"
-
+#include <string>
+#include <stdio.h>
 
 bool start_gl() {
 	std::cout << "Starting GLFW" << std::endl;
@@ -59,4 +60,34 @@ void update_fps_counter (GLFWwindow* window) {
 		 frame_count = 0;
 	}
 	frame_count++;
+}
+
+void check_shader(GLuint shader, std::string shader_name) {
+	int params = -1;
+	glGetShaderiv(shader, GL_COMPILE_STATUS, &params);
+	if (params != GL_TRUE) {
+		char *log = new char[2048];
+		int length;
+		glGetShaderInfoLog(shader, 2048, &length, log);
+		std::cout << shader_name << std::endl << log << std::endl;
+	}
+}
+
+GLuint create_shader_program(const char *fragment_shader_string, const char *vertex_shader_string) {
+	GLuint vertex_shader = glCreateShader(GL_VERTEX_SHADER);
+	glShaderSource(vertex_shader, 1, &vertex_shader_string, NULL);
+	glCompileShader(vertex_shader);
+	check_shader(vertex_shader, vertex_shader_string);
+
+	GLuint fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
+	glShaderSource(fragment_shader, 1, &fragment_shader_string, NULL);
+	glCompileShader(fragment_shader);
+	check_shader(fragment_shader, fragment_shader_string);
+
+	GLuint shader_program = glCreateProgram();
+	glAttachShader(shader_program, fragment_shader);
+	glAttachShader(shader_program, vertex_shader);
+	glLinkProgram(shader_program);
+
+	return shader_program;
 }

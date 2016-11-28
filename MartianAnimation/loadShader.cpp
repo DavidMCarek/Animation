@@ -24,13 +24,3 @@ char* load_shader(std::string file) {
 	return fileContents;
 }
 
-void check_shader(GLuint shader) {
-	int params = -1;
-	glGetShaderiv(shader, GL_COMPILE_STATUS, &params);
-	if (params != GL_TRUE) {
-		char *log = new char[2048];
-		int length;
-		glGetShaderInfoLog(shader, 2048, &length, log);
-		printf("%s\n", log);
-	}
-}

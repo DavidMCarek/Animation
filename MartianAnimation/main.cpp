@@ -76,26 +76,11 @@ int main() {
 
 	GLuint plane_n_vbo = 0;
 	buffer_setup(plane_n_vbo, plane_n, 18 * sizeof(float), 1);
-
-	const char* vertex_shader = load_shader(".\\vert.glsl");
-	const char* fragment_shader = load_shader(".\\frag.glsl");
-
-	GLuint vs = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vs, 1, &vertex_shader, NULL);
-	glCompileShader(vs);
-	check_shader(vs);
-
-	GLuint fs = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fs, 1, &fragment_shader, NULL);
-	glCompileShader(fs);
-	check_shader(fs);
-
-	GLuint shader_programme = glCreateProgram();
-	glAttachShader(shader_programme, fs);
-	glAttachShader(shader_programme, vs);
-	glLinkProgram(shader_programme);
-	glUseProgram(shader_programme);
 	glBindVertexArray(plane_vao);
+
+	GLuint plane_shader_program = create_shader_program(load_shader(".\\plane_frag.glsl"), load_shader(".\\plane_vert.glsl"));
+
+	GLuint entity_shader_program = create_shader_program(load_shader(".\\frag.glsl"), load_shader(".\\vert.glsl"));
 
 	vec3 cam_location = vec3(-1.0, 1.0, 0.0);
 	vec3 cam_target = vec3(1.0, M_PI_4 + M_PI_2, 0.0);
@@ -105,15 +90,19 @@ int main() {
 
 	mat4 persMat4 = perspective_projection(67, (float)g_gl_width / g_gl_height, 0.1, 100);
 
-	GLuint persMat = glGetUniformLocation(shader_programme, "persMat");
+	GLuint plane_persMat = glGetUniformLocation(plane_shader_program, "persMat");
 
-	GLuint color = glGetUniformLocation(shader_programme, "in_color");
+	GLuint color = glGetUniformLocation(plane_shader_program, "in_color");
 
-	GLuint model_mat = glGetUniformLocation(shader_programme, "model_mat");
+	GLuint plane_model_mat = glGetUniformLocation(plane_shader_program, "model_mat");
 
-	GLuint light_0 = glGetUniformLocation(shader_programme, "light_0");
-	GLuint light_1 = glGetUniformLocation(shader_programme, "light_1");
-	GLuint light_2 = glGetUniformLocation(shader_programme, "light_2");
+	GLuint persMat = glGetUniformLocation(entity_shader_program, "persMat");
+
+	GLuint model_mat = glGetUniformLocation(entity_shader_program, "model_mat");
+
+	GLuint light_0 = glGetUniformLocation(entity_shader_program, "light_0");
+	GLuint light_1 = glGetUniformLocation(entity_shader_program, "light_1");
+	GLuint light_2 = glGetUniformLocation(entity_shader_program, "light_2");
 
 	std::vector<vec3> p_martian;
 	std::vector<vec3> n_martian;
@@ -184,7 +173,17 @@ int main() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glViewport(0, 0, g_gl_width, g_gl_height);
 
-		glUseProgram(shader_programme);
+		glUseProgram(plane_shader_program);
+
+		glUniformMatrix4fv(plane_persMat, 1, GL_TRUE, (persMat4 * camMat).mat);
+
+		glUniformMatrix4fv(plane_model_mat, 1, GL_TRUE, identity_mat().mat);
+
+		glUniform3f(color, 0.75, 0.75, 0.75);
+		glBindVertexArray(plane_vao);
+		glDrawArrays(GL_TRIANGLES, 0, pointCount);
+
+		glUseProgram(entity_shader_program);
 
 		glUniform1i(light_0, l0);
 		glUniform1i(light_0, l1);
@@ -193,10 +192,6 @@ int main() {
 		glUniformMatrix4fv(persMat, 1, GL_TRUE, (persMat4 * camMat).mat);
 
 		glUniformMatrix4fv(model_mat, 1, GL_TRUE, identity_mat().mat);
-
-		glUniform3f(color, 0.75, 0.75, 0.75);
-		glBindVertexArray(plane_vao);
-		glDrawArrays(GL_TRIANGLES, 0, pointCount);
 
 		if (!pause) {
 			entity_position.x = bez_x(loop_count);
