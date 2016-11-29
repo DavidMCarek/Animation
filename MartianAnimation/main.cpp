@@ -12,8 +12,8 @@
 int g_gl_width = 960;
 int g_gl_height = 540;
 
-std::string rex_obj = "allo.obj";
-std::string rex_tex = "allo.png";
+std::string entity_obj = "allo.obj";
+std::string entity_tex = "allo.png";
 
 std::string marvin_martian = "marvinDos2ndTry.obj";
 std::string martian_shoes = "martianShoes.obj";
@@ -107,12 +107,12 @@ int main() {
 	std::vector<vec3> p_martian;
 	std::vector<vec3> n_martian;
 	std::vector<vec2> t_martian;
-	load_obj_file(rex_obj, p_martian, n_martian, t_martian);
+	load_obj_file(entity_obj, p_martian, n_martian, t_martian);
 
 	stbi_set_flip_vertically_on_load(1);
 	int tex_x, tex_y, tex_n;
 	tex_n = 3;
-	unsigned char *data1 = stbi_load(rex_tex.c_str(), &tex_x, &tex_y, &tex_n, 3);
+	unsigned char *data1 = stbi_load(entity_tex.c_str(), &tex_x, &tex_y, &tex_n, 3);
 	
 	GLuint tex;
 	glGenTextures(1, &tex);
@@ -163,6 +163,10 @@ int main() {
 
 	bool keys_down[GLFW_KEY_LAST];
 
+	for (int i = 0; i < GLFW_KEY_LAST; i++) {
+		keys_down[i] = false;
+	}
+
 	while (!glfwWindowShouldClose(g_window)) {
 		static double previous_seconds = glfwGetTime();
 		double current_seconds = glfwGetTime();
@@ -186,8 +190,8 @@ int main() {
 		glUseProgram(entity_shader_program);
 
 		glUniform1i(light_0, l0);
-		glUniform1i(light_0, l1);
-		glUniform1i(light_0, l2);
+		glUniform1i(light_1, l1);
+		glUniform1i(light_2, l2);
 
 		glUniformMatrix4fv(persMat, 1, GL_TRUE, (persMat4 * camMat).mat);
 

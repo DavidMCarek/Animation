@@ -9,9 +9,11 @@ uniform mat4 model_mat;
 
 out vec3 norm_vec;
 out vec2 tc_out;
+out vec3 fp;
 
 void main () {
 	
+	fp = vp;
 	tc_out = texture_coord;
 	norm_vec = normal_vec;
 	gl_Position = persMat * model_mat * vec4 (vp, 1.0);
